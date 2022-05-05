@@ -6,15 +6,15 @@ export class Searchbar extends Component {
   render() {
     return (
       <header className="Searchbar">
-        <form className="form">
-          <button type="submit" className="button">
-            <span className="button-label">Search</span>
+        <form className="SearchForm">
+          <button type="submit" className="SearchForm-button">
+            <span className="button-label"></span>
           </button>
           <input
-            className="input"
+            className="SearchForm-input"
             type="text"
             autoFocus
-            placeholder="Search images and photos"
+            placeholder="Lets search!"
           />
         </form>
       </header>

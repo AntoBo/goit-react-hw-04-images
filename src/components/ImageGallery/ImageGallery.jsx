@@ -1,7 +1,5 @@
-import { children } from 'react';
-
-const ImageGallery = () => {
-  return <ul class="gallery">{children}</ul>;
+const ImageGallery = ({ children }) => {
+  return <ul className="ImageGallery">{children}</ul>;
 };
 
 export default ImageGallery;
