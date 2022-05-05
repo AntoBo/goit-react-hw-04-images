@@ -8,8 +8,8 @@ import ImageGallery from './ImageGallery/ImageGallery';
 getImagesApi('cat', 1);
 
 export class App extends Component {
-  static status = {
-    IDLE: 'idle',
+  status = {
+    START: 'start',
     LOADING: 'loading',
     RESOLVED: 'resolved',
     REJECTED: 'rejected',
@@ -17,6 +17,7 @@ export class App extends Component {
   state = {
     data: [],
     total: null,
+    status: this.status.START,
   };
 
   componentDidMount() {
@@ -28,24 +29,31 @@ export class App extends Component {
   }
 
   getImages() {
+    this.setState({ status: this.status.LOADING });
     getImagesApi({ q: 'cat', page: 2 })
       .then(data => {
         // console.log(data);
         this.setState({ data: data.hits, total: data.totalHits });
+        this.setState({ status: this.status.RESOLVED });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.setState({ status: this.status.REJECTED });
+      });
   }
   // this.getImages();
 
   render() {
-    const { data } = this.state;
-    console.log('data in render', data);
-    return (
-      <>
-        <Searchbar onSubmit={this.onSubmit} />
-        <ImageGallery items={data} />
-      </>
-    );
+    const { data, status } = this.state;
+    switch (status) {
+      case this.status.RESOLVED:
+        return (
+          <>
+            <Searchbar onSubmit={this.onSubmit} />
+            <ImageGallery items={data} />
+          </>
+        );
+    }
   }
 }
 

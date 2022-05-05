@@ -1,6 +1,6 @@
-const ImageGalleryItem = ({ id, tags, largeImageURL, webformatURL }) => {
+const ImageGalleryItem = ({ tags, largeImageURL, webformatURL }) => {
   return (
-    <li key={id} className="ImageGalleryItem">
+    <li className="ImageGalleryItem">
       <img className="ImageGalleryItem-image" src={webformatURL} alt={tags} />
     </li>
   );
