@@ -28,20 +28,22 @@ export class App extends Component {
   }
 
   getImages() {
-    getImagesApi('cat', 1)
+    getImagesApi({ q: 'cat', page: 2 })
       .then(data => {
         // console.log(data);
-        this.setState({ data: data, total: data.totalHits });
+        this.setState({ data: data.hits, total: data.totalHits });
       })
       .catch(err => console.log(err));
   }
   // this.getImages();
 
   render() {
+    const { data } = this.state;
+    console.log('data in render', data);
     return (
       <>
         <Searchbar onSubmit={this.onSubmit} />
-        {/* <ImageGallery items={() => this.getImages()} /> */}
+        <ImageGallery items={data} />
       </>
     );
   }

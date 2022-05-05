@@ -14,7 +14,7 @@ export const getImagesApi = ({ q, page }) => {
     per_page: 12,
     image_type: 'photo',
     orientation: 'horizontal',
-    colors: 'black, white',
+    // colors: 'black, white',
   };
   return axios.get().then(({ data }) => {
     // console.log(data);
