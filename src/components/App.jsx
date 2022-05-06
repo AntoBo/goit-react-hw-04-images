@@ -6,6 +6,7 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
 import Modal from './Modal/Modal';
+import Err from './Err/Err.jsx';
 
 export class App extends Component {
   state = {
@@ -15,6 +16,7 @@ export class App extends Component {
     q: '',
     isLoading: false,
     isError: false,
+    error: null,
     isModalOpen: false,
     modalItem: null,
   };
@@ -37,7 +39,6 @@ export class App extends Component {
   }
 
   toggleModal = (modalItem = null) => {
-    console.log('toggleModal fired in App');
     this.setState(prev => ({ isModalOpen: !prev.isModalOpen, modalItem }));
   };
 
@@ -61,6 +62,9 @@ export class App extends Component {
 
     getImagesApi({ q, page })
       .then(data => {
+        if (!data.hits.length && q) {
+          throw new Error('no images found on search: ' + q);
+        }
         this.setState(prev => ({
           data: [...prev.data, ...data.hits],
           total: data.totalHits,
@@ -68,7 +72,7 @@ export class App extends Component {
       })
       .catch(err => {
         console.log(err);
-        this.setState({ isError: true });
+        this.setState({ isError: true, error: err });
       })
       .finally(() => {
         this.setState({ isLoading: false });
@@ -76,22 +80,24 @@ export class App extends Component {
   }
 
   render() {
-    const { data, isLoading, isError, total, isModalOpen, modalItem } =
+    const { data, isLoading, isError, error, total, isModalOpen, modalItem } =
       this.state;
-    const showLoadMoreBtn = total > data.length;
+    const showLoadMoreBtn = total > data.length && data.length;
     return (
       <>
         <Searchbar onSubmit={this.onSubmit} />
-        {isError && <p>Error!</p>}
+        {isError && <Err message={error.message} />}
         {isLoading && <Loader />}
         {!isError && (
           <>
             {/* render if ok */}
 
             <ImageGallery openModal={this.toggleModal} items={data} />
+
             {showLoadMoreBtn && (
               <LoadMoreBtn handleClick={this.handleLoadMoreBtn} />
             )}
+
             {isModalOpen && (
               <Modal modalItem={modalItem} closeModal={this.toggleModal} />
             )}

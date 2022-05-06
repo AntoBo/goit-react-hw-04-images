@@ -206,3 +206,16 @@ img {
 .Button:focus {
   background-color: rgb(34, 48, 138);
 }
+
+.loader {
+  width: 10%;
+  height: 10%;
+  margin: 0 auto;
+  background-image: url('../assets/images/searchicon.png');
+}
+
+.error {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
