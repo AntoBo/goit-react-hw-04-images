@@ -18,8 +18,8 @@ export class App extends Component {
     q: '',
     isLoading: false,
     isError: false,
-    error: null,
     isModalOpen: false,
+    error: null,
     modalItem: null,
   };
 
