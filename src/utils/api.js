@@ -8,11 +8,11 @@ axios.defaults.baseURL = 'https://pixabay.com/api/';
 export const getImagesApi = ({ q, page }) => {
   axios.defaults.params = {
     q,
-    key: API_KEY,
     page,
     per_page: 12,
     image_type: 'photo',
     orientation: 'horizontal',
+    key: API_KEY,
     // colors: 'black, white',
   };
   return axios.get().then(({ data }) => {

@@ -11,6 +11,7 @@ export class App extends Component {
     data: [],
     total: null,
     page: null,
+    q: '',
     isLoading: false,
     isError: false,
   };
@@ -22,14 +23,26 @@ export class App extends Component {
     }
   }
 
-  onSubmit() {
+  componentDidUpdate(prevProps, prevState) {
+    //scroll to bottom after load more
+    if (prevState.data.length) {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }
+
+  onSubmit = () => {
     console.log('onSubmit in App');
-  }
+  };
 
-  handleLoadMoreBtn() {
-    console.log('handleLoadMoreBtn fired');
-  }
+  handleLoadMoreBtn = () => {
+    const { q, page } = this.state;
+    this.getImages({ q: q, page: page + 1 });
+  };
 
+  //state.page&q settles here ¬
   getImages({ q, page }) {
     console.log('getting images...');
     this.setState({ isLoading: true, isError: false });
@@ -38,14 +51,21 @@ export class App extends Component {
         this.setState(prev => ({
           data: [...prev.data, ...data.hits],
           total: data.totalHits,
-          page: page,
+          page,
+          q,
         }));
       })
       .catch(err => {
         console.log(err);
         this.setState({ isError: true });
       })
-      .finally(() => this.setState({ isLoading: false }));
+      .finally(() => {
+        this.setState({ isLoading: false });
+        // window.scrollTo({
+        //   top: document.body.scrollHeight,
+        //   behavior: 'smooth',
+        // });
+      });
   }
 
   render() {
