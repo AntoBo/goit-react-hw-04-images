@@ -5,6 +5,7 @@ import { getImagesApi } from '../utils/api.js';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
+import Modal from './Modal/Modal';
 
 export class App extends Component {
   state = {
@@ -14,6 +15,8 @@ export class App extends Component {
     q: '',
     isLoading: false,
     isError: false,
+    isModalOpen: false,
+    modalItem: null,
   };
 
   componentDidMount() {
@@ -32,6 +35,11 @@ export class App extends Component {
       });
     }
   }
+
+  toggleModal = (modalItem = null) => {
+    console.log('toggleModal fired in App');
+    this.setState(prev => ({ isModalOpen: !prev.isModalOpen, modalItem }));
+  };
 
   onSubmit = input => {
     this.setState({ data: [] });
@@ -68,7 +76,8 @@ export class App extends Component {
   }
 
   render() {
-    const { data, isLoading, isError, total } = this.state;
+    const { data, isLoading, isError, total, isModalOpen, modalItem } =
+      this.state;
     const showLoadMoreBtn = total > data.length;
     return (
       <>
@@ -79,9 +88,12 @@ export class App extends Component {
           <>
             {/* render if ok */}
 
-            <ImageGallery items={data} />
+            <ImageGallery openModal={this.toggleModal} items={data} />
             {showLoadMoreBtn && (
               <LoadMoreBtn handleClick={this.handleLoadMoreBtn} />
+            )}
+            {isModalOpen && (
+              <Modal modalItem={modalItem} closeModal={this.toggleModal} />
             )}
           </>
         )}
