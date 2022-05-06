@@ -25,7 +25,7 @@ export class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     //scroll to bottom after load more
-    if (prevState.data.length) {
+    if (this.state.page > 1) {
       window.scrollTo({
         top: document.body.scrollHeight,
         behavior: 'smooth',
@@ -33,9 +33,13 @@ export class App extends Component {
     }
   }
 
-  onSubmit = e => {
-    e.preventDefault();
-    console.log('onSubmit in App');
+  onSubmit = input => {
+    this.setState({ data: [] });
+    this.getImages({ q: input, page: 1 });
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   handleLoadMoreBtn = () => {
@@ -45,15 +49,13 @@ export class App extends Component {
 
   //state.page&q settles here ¬
   getImages({ q, page }) {
-    console.log('getting images...');
-    this.setState({ isLoading: true, isError: false });
+    this.setState({ isLoading: true, isError: false, page, q });
+
     getImagesApi({ q, page })
       .then(data => {
         this.setState(prev => ({
           data: [...prev.data, ...data.hits],
           total: data.totalHits,
-          page,
-          q,
         }));
       })
       .catch(err => {
@@ -62,25 +64,25 @@ export class App extends Component {
       })
       .finally(() => {
         this.setState({ isLoading: false });
-        // window.scrollTo({
-        //   top: document.body.scrollHeight,
-        //   behavior: 'smooth',
-        // });
       });
   }
 
   render() {
-    const { data, isLoading, isError, hasData } = this.state;
+    const { data, isLoading, isError, total } = this.state;
+    const showLoadMoreBtn = total > data.length;
     return (
       <>
         <Searchbar onSubmit={this.onSubmit} />
         {isError && <p>Error!</p>}
         {isLoading && <Loader />}
-        {/* render if ok */}
         {!isError && (
           <>
+            {/* render if ok */}
+
             <ImageGallery items={data} />
-            <LoadMoreBtn handleClick={this.handleLoadMoreBtn} />
+            {showLoadMoreBtn && (
+              <LoadMoreBtn handleClick={this.handleLoadMoreBtn} />
+            )}
           </>
         )}
       </>
