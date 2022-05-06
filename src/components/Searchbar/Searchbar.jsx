@@ -6,7 +6,7 @@ export class Searchbar extends Component {
   render() {
     return (
       <header className="Searchbar">
-        <form className="SearchForm">
+        <form onSubmit={this.props.onSubmit} className="SearchForm">
           <button type="submit" className="SearchForm-button">
             <span className="button-label"></span>
           </button>

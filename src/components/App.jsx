@@ -33,7 +33,8 @@ export class App extends Component {
     }
   }
 
-  onSubmit = () => {
+  onSubmit = e => {
+    e.preventDefault();
     console.log('onSubmit in App');
   };
 
