@@ -7,8 +7,6 @@ import Loader from './Loader/Loader';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
 import Modal from './Modal/Modal';
 import Err from './Err/Err.jsx';
-// import '/node_modules/react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import { Audio } from 'react-loader-spinner';
 
 export class App extends Component {
   state = {
