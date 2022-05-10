@@ -7,6 +7,7 @@ import Loader from './Loader/Loader';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
 import Modal from './Modal/Modal';
 import Err from './Err/Err.jsx';
+import ModalProvider from 'context/ModalProvider';
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -15,9 +16,9 @@ const App = () => {
   const [q, setQ] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState(null);
-  const [modalItem, setModalItem] = useState(null);
+  // const [modalItem, setModalItem] = useState(null);
 
   const onSubmit = input => {
     setData([]);
@@ -59,10 +60,10 @@ const App = () => {
     getImages({ q, page: page + 1 });
   };
 
-  const toggleModal = (modalItem = null) => {
-    setIsModalOpen(prev => !prev);
-    setModalItem(modalItem);
-  };
+  // const toggleModal = (modalItem = null) => {
+  //   setIsModalOpen(prev => !prev);
+  //   setModalItem(modalItem);
+  // };
 
   //default load images on load
   useEffect(() => {
@@ -91,17 +92,15 @@ const App = () => {
       {isError && <Err message={error.message} />}
       {isLoading && <Loader />}
       {!isError && (
-        <>
-          {/* render if ok */}
-
-          <ImageGallery openModal={toggleModal} items={data} />
+        <ModalProvider>
+          <ImageGallery items={data} />
 
           {showLoadMoreBtn && <LoadMoreBtn handleClick={handleLoadMoreBtn} />}
 
-          {isModalOpen && (
+          {/* {isModalOpen && (
             <Modal modalItem={modalItem} closeModal={toggleModal} />
-          )}
-        </>
+          )} */}
+        </ModalProvider>
       )}
     </>
   );

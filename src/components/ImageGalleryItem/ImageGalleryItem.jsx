@@ -1,4 +1,8 @@
-const ImageGalleryItem = ({ item, openModal }) => {
+import { useModalContext } from '../../context/ModalProvider';
+
+const ImageGalleryItem = ({ item }) => {
+  const openModal = useModalContext();
+
   const { tags, webformatURL } = item;
   return (
     <li onClick={() => openModal(item)} className="ImageGalleryItem">

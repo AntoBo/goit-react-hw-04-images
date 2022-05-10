@@ -3,7 +3,9 @@ import { createPortal } from 'react-dom';
 
 const modalRoot = document.getElementById('modal');
 
-const Modal = ({ closeModal, modalItem }) => {
+const Modal = ({ modalItem, closeModal }) => {
+  // const closeModal = useModalContext();
+
   useEffect(() => {
     //after mount
     window.addEventListener('keydown', handleEsc);
