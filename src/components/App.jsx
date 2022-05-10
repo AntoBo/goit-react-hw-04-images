@@ -19,11 +19,6 @@ const App = () => {
   const [error, setError] = useState(null);
   const [modalItem, setModalItem] = useState(null);
 
-  const toggleModal = (modalItem = null) => {
-    setIsModalOpen(prev => !prev.isModalOpen);
-    setModalItem(modalItem);
-  };
-
   const onSubmit = input => {
     setData([]);
     getImages({ q: input, page: 1 });
@@ -62,6 +57,11 @@ const App = () => {
 
   const handleLoadMoreBtn = () => {
     getImages({ q, page: page + 1 });
+  };
+
+  const toggleModal = (modalItem = null) => {
+    setIsModalOpen(prev => !prev.isModalOpen);
+    setModalItem(modalItem);
   };
 
   //default load images on load
