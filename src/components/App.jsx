@@ -20,7 +20,8 @@ const App = () => {
 
   const onSubmit = input => {
     setData([]);
-    getImages({ q: input, page: 1 });
+    setQ(input);
+    setPage(1);
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
@@ -29,11 +30,8 @@ const App = () => {
 
   //state.page&q settles here ¬
   const getImages = ({ q, page }) => {
-    setQ(q);
-    setPage(page);
     setIsLoading(true);
     setIsError(false);
-    setQ(q);
 
     getImagesApi({ q, page })
       .then(data => {
@@ -55,17 +53,12 @@ const App = () => {
   };
 
   const handleLoadMoreBtn = () => {
-    getImages({ q, page: page + 1 });
+    setPage(page => page + 1);
   };
 
-  //default load images on load
   useEffect(() => {
-    if (!data.length) {
-      // setQ('');
-      // setPage(1);
-      getImages({ q, page });
-    }
-  }, []);
+    getImages({ q, page });
+  }, [page, q]);
 
   //scroll to bottom after load more
   useEffect(() => {
