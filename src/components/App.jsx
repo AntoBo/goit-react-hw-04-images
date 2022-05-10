@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import '../styles/styles.scss';
 import Searchbar from './Searchbar/Searchbar';
@@ -5,7 +6,6 @@ import { getImagesApi } from '../utils/api.js';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
-import Modal from './Modal/Modal';
 import Err from './Err/Err.jsx';
 import ModalProvider from 'context/ModalProvider';
 
@@ -16,9 +16,7 @@ const App = () => {
   const [q, setQ] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState(null);
-  // const [modalItem, setModalItem] = useState(null);
 
   const onSubmit = input => {
     setData([]);
@@ -60,11 +58,6 @@ const App = () => {
     getImages({ q, page: page + 1 });
   };
 
-  // const toggleModal = (modalItem = null) => {
-  //   setIsModalOpen(prev => !prev);
-  //   setModalItem(modalItem);
-  // };
-
   //default load images on load
   useEffect(() => {
     if (!data.length) {
@@ -96,10 +89,6 @@ const App = () => {
           <ImageGallery items={data} />
 
           {showLoadMoreBtn && <LoadMoreBtn handleClick={handleLoadMoreBtn} />}
-
-          {/* {isModalOpen && (
-            <Modal modalItem={modalItem} closeModal={toggleModal} />
-          )} */}
         </ModalProvider>
       )}
     </>

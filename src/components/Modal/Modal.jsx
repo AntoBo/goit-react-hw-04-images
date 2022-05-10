@@ -12,6 +12,7 @@ const Modal = ({ modalItem, closeModal }) => {
 
     //before unmount
     return () => window.removeEventListener('keydown', handleEsc);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClick = e => {
